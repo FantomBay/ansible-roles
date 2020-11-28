@@ -1,0 +1,44 @@
+
+---
+- name: Install Apache and Upload my Web Page 
+  hosts: test
+  become: yes
+
+
+  vars:
+    source_file: ./MyWebSite/index.html
+    distin_file: /var/www/html
+
+
+  tasks:
+  - name: 0/0 -Check and Print Name OS
+    debug: var=ansible_os_family
+
+  - name: 1/3 -Install Apache-WebServer for RedHat.
+    yum: name=httpd state=latest
+    when: ansible_os_family == "RedHat"
+
+  - name: 1/3 -Install Apache-WebServer for Debian.
+    apt: name=apache2 state=latest
+    when: ansible_os_family == "Debian"
+
+  - name: 2/3 -Copy my Page from local in to Server's
+    copy: src={{ source_file }} dest={{ distin_file }} mode=0555
+    notify: Restart Apache
+    become: yes
+
+  - name: 3/3 -Start WebServer and Enable on boot in RedHat
+    service: name=httpd state=started enabled=yes
+    when: ansible_os_family == "RedHat"
+
+  - name: 3/3 -Start WebServer and Enable on boot in Debian
+    service: name=apache2 state=started
+    when: ansible_os_family == "Debian"  
+
+  handlers:
+  - name: Restart Apache in RedHat
+    service: name=httpd state=restarted
+
+  - name: Restart Apache in Debian
+    service: name=apache2 state=restarted
+

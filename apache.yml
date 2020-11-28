@@ -1,0 +1,33 @@
+
+---
+- name: Install Apache and Upload my Web Page 
+  hosts: test
+  become: yes
+
+  tasks:
+  - name: 0/2 -Check and Print Name OS
+    debug: var=ansible_os_family
+
+  - name: 1/2 -Install Apache-WebServer for RedHat.
+    yum: name=httpd state=latest
+    when: ansible_os_family == "RedHat"
+
+  - name: 1/2 -Install Apache-WebServer for Debian.
+    apt: name=apache2 state=latest
+    when: ansible_os_family == "Debian"
+
+  - name: 2/2 -Start WebServer and Enable on boot in RedHat
+    service: name=httpd state=started enabled=yes
+    when: ansible_os_family == "RedHat"
+
+  - name: 2/2 -Start WebServer and Enable on boot in Debian
+    service: name=apache2 state=started
+    when: ansible_os_family == "Debian"  
+
+  handlers:
+  - name: Restart Apache in RedHat
+    service: name=httpd state=restarted
+
+  - name: Restart Apache in Debian
+    service: name=apache2 state=restarted
+

@@ -1,0 +1,41 @@
+---
+# tasks file for roles/nginx
+
+- block: # -===Block for RedHat===-
+  - name: Install EPEL repo
+    yum: name=epel-release
+  - name: Set SELinux permissive.
+    selinux:
+        policy: targeted
+        state: permissive
+  - name: Install Nginx-WebServer for RedHat.
+    yum: name=nginx state=latest
+  - name: Start WebServer and Enable on boot in RedHat
+    service: name=nginx state=started enabled=yes
+  when: ansible_os_family == "RedHat"
+
+- block: # -===Block for Debian===-
+  - name: Install Nginx-WebServer for Debian.
+    apt: name=nginx state=latest 
+  - name: Start WebServer and Enable on boot in Debian
+    service: name=nginx state=started
+  when: ansible_os_family == "Debian"
+
+- name: Generate nginx.conf file
+  template: src=nginx.j2 dest=/etc/nginx/nginx.conf mode=0644 
+  notify:
+    - Restart Nginx in RedHat
+    - Restart Nginx in Debian
+
+
+- name: Generate index.html file
+  template: src=index.j2 dest={{ distin_file }}/index.html mode=0555
+  notify:
+    - Restart Nginx in RedHat
+    - Restart Nginx in Debian
+
+- name: Copy files to web-server
+  copy: src=Tux.png dest={{ distin_file }} mode=0555
+  notify: 
+    - Restart Nginx in RedHat
+    - Restart Nginx in Debian

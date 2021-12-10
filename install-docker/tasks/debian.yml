@@ -1,0 +1,34 @@
+---
+
+- name: debian | Install dependencies
+  apt:
+    state: present
+    pkg:
+       - apt-transport-https
+       - ca-certificates
+       - curl
+       - gnupg
+       - lsb-release
+
+- name: debian | Add gpg key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  notify: Update apt cache
+
+- name: debian | Add docker official repository for debian
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    state: present
+  notify: Update apt cache
+
+- name: debian | Install Docker Engine
+  apt:
+    state: present
+    pkg:
+       - docker-ce
+       - docker-ce-cli
+       - containerd.io
+  notify: 
+      - Start Docker service
+

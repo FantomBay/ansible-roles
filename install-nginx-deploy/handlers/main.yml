@@ -1,0 +1,10 @@
+---
+# handlers file for roles/nginx
+
+- name: Restart Nginx in RedHat
+  service: name=nginx state=restarted
+  when: ansible_os_family == "RedHat"
+
+- name: Restart Nginx in Debian
+  service: name=nginx state=restarted
+  when: ansible_os_family == "Debian"

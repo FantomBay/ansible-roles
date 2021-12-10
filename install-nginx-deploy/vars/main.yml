@@ -1,0 +1,5 @@
+---
+# vars file for roles/nginx
+ansible_ssh_private_key_file: "./.vagrant/machines/web_server/virtualbox/private_key"
+nginx_port: 8080
+distin_file: /usr/share/nginx/html

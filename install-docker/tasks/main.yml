@@ -1,0 +1,10 @@
+---
+
+- include: "rhel.yml"
+  when: ansible_os_family == "RedHat"
+
+- include: "ubuntu20.yml"
+  when: ansible_distribution == "Ubuntu"
+
+- include: "debian.yml"
+  when: ansible_distribution == "Debian"

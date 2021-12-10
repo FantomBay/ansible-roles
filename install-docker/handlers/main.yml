@@ -1,0 +1,13 @@
+---
+# handlers file for install-docker
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Update apt cache
+  apt:
+    update_cache: yes

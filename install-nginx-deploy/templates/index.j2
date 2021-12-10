@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <title>My test page</title>
+    </head>
+    <body>
+        <h1 align="center">Hello {{ ansible_user_id }} </h1>
+        <p align="center">Server hostname: {{ ansible_hostname }}</p>
+        <p align="center">Server OS Family is: {{ ansible_os_family }}</p>
+        <p align="center">Time create this page:{{ ansible_date_time.time }} </p>
+        <p align="center"><img src="Tux.png" alt="Tux_img" width="200" height="200"></p>
+    </body>
+</html>

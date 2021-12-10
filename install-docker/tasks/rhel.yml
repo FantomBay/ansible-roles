@@ -1,0 +1,28 @@
+---
+
+- name: rhel | Install yum-utils
+  yum:
+    name: yum-utils
+    state: latest
+  become: yes
+
+- name: rhel | Add repo docer-ce.repo
+  get_url:
+    url: http://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+    mode: 0644
+  become: yes
+
+- name: rhel | Install Docker.
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+  become: yes
+  notify: 
+      - Start Docker service
+
+  

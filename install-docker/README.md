@@ -1,13 +1,14 @@
 Install Docker
 =========
 
-This role instal Docker in your remoute hosts.
+This role instal Docker.
 
 Requirements
 ------------
-
+Debian
+Ubuntu
 RHEL's-OS
-Disabled SELinux
+SELinux - permisive
 
 Role Variables
 --------------
@@ -36,4 +37,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+FantomBay

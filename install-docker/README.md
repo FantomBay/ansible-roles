@@ -8,7 +8,6 @@ Requirements
 Debian
 Ubuntu
 RHEL's-OS
-SELinux - permisive
 
 Role Variables
 --------------
@@ -37,4 +36,4 @@ BSD
 Author Information
 ------------------
 
-FantomBay 
+FantomBay
